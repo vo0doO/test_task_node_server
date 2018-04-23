@@ -34,4 +34,5 @@ CREATE TABLE "aggr_bills" (
 );
 
 
-
+insert into public.obj_user(user_email, user_name, user_password)
+values ('candidate@e.ru', 'candidate', 'dda18a0e21ae47c53b4309434cbc02ae8bf764fa83a6defbb719431242722aa7');
