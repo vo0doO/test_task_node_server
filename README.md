@@ -33,6 +33,7 @@ password: candidate
 JWT-токен необходимо указать в заголовке Authorization после ключевого слова Bearer.
 
 Все креды для подключения к БД есть в [config/default.json](https://github.com/qiwi/test_task_node_server/blob/master/config/default.json)
+Может потребоваться VPN, т.к. сервер БД на амазоне.
 
 #### Для первого запуска приложения достаточно трёх шагов:
 *при условии установленной среды Node.js >= 8.11
