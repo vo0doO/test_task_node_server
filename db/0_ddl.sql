@@ -1,10 +1,4 @@
-﻿-- =============================================================================
--- Diagram Name: 47rest
--- Created on: 4/17/2018 4:45:14 PM
--- Diagram Version: 
--- =============================================================================
-
-CREATE TABLE "obj_user" (
+﻿CREATE TABLE "obj_user" (
 	"id_user" SERIAL NOT NULL,
 	"user_email" varchar NOT NULL,
 	"user_name" varchar NOT NULL,
@@ -32,7 +26,3 @@ CREATE TABLE "aggr_bills" (
 	PRIMARY KEY("id_bills"),
 	CONSTRAINT "constr_bills_add_timestamp_unique" UNIQUE("bills_add_timestamp")
 );
-
-
-insert into public.obj_user(user_email, user_name, user_password)
-values ('candidate@e.ru', 'candidate', 'dda18a0e21ae47c53b4309434cbc02ae8bf764fa83a6defbb719431242722aa7');
