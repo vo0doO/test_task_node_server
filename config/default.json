@@ -8,6 +8,10 @@
     "jwt": {
       "secret": "jwt_secret",
       "publicPath": "^\/api/public"
+    },
+    "cors": {
+      "enabled": true,
+      "credentials": true
     }
   },
   "db": {
