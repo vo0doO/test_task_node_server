@@ -2,6 +2,7 @@ import * as config from 'config';
 import * as Router from 'koa-router';
 import { AuthController } from "./controllers/auth";
 import { Users as UsersController } from './controllers/users';
+import {Context} from "koa";
 
 const router = new Router();
 const users = new UsersController();
@@ -9,9 +10,26 @@ const auth = new AuthController();
 
 const usersProtectedRoute = config.get('appConfig.apiPrefix') + 'users/';
 const authPublicRoute = config.get('appConfig.publicApiPrefix') + 'auth/';
+const healthcheckRoute = config.get('appConfig.publicApiPrefix') + 'healthcheck';
 
 router
 
+/**
+ * @api {post} /api/public/healthcheck
+ * @apiName healthcheck
+ * @apiGroup healthcheck
+ *
+ * @apiDescription Всегда вернет 200, когда приложение запущено
+ *
+ * @apiSuccess {Number} result 1
+ *
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "result": 1
+ *     }
+ */
+    .get(healthcheckRoute, (ctx: Context, next: () => void) => { ctx.body = 1; next(); })
 /**
  * @api {post} /api/public/auth/login
  * @apiName login
