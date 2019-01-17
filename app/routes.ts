@@ -1,7 +1,7 @@
 import * as config from 'config';
 import * as Router from 'koa-router';
-import { AuthController } from "./controllers/auth";
-import { Users as UsersController } from './controllers/users';
+import {AuthController} from "./controllers/auth";
+import {Users as UsersController} from './controllers/users';
 import {Context} from "koa";
 
 const router = new Router();
@@ -14,41 +14,45 @@ const healthcheckRoute = config.get('appConfig.publicApiPrefix') + 'healthcheck'
 
 router
 
-/**
- * @api {post} /api/public/healthcheck
- * @apiName healthcheck
- * @apiGroup healthcheck
- *
- * @apiDescription Всегда вернет 200, когда приложение запущено
- *
- * @apiSuccess {Number} result 1
- *
- * @apiSuccessExample {json} Success-Response:
- *     HTTP/1.1 200 OK
- *     {
- *       "result": 1
- *     }
- */
-    .get(healthcheckRoute, (ctx: Context, next: () => void) => { ctx.body = 1; next(); })
-/**
- * @api {post} /api/public/auth/login
- * @apiName login
- * @apiGroup Auth
- *
- * @apiDescription Авторизует пользователя. В ответ на запрос отдаст JWT-Токен.
- * Его необходимо указывать в заголовке Authorization.
- *
- * @apiParam {String} email Почта пользователя.
- * @apiParam {String} password Пароль пользователя.
- *
- * @apiSuccess {String} result jwtToken
- *
- * @apiSuccessExample {json} Success-Response:
- *     HTTP/1.1 200 OK
- *     {
- *       "result": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.dtxWM6MIcgoeMgH87tGvsNDY6cHWL6MGW4LeYvnm1JA"
- *     }
- */
+    /**
+     * @api {post} /api/public/healthcheck
+     * @apiName healthcheck
+     * @apiGroup healthcheck
+     *
+     * @apiDescription Всегда вернет 200, когда приложение запущено
+     *
+     * @apiSuccess {Number} result 1
+     *
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "result": 1
+     *     }
+     */
+    .get(healthcheckRoute, (ctx: Context, next: () => void) => {
+        ctx.body = 1;
+        next();
+    })
+    /**
+     * @api {post} /api/public/auth/login
+     * @apiName login
+     * @apiGroup Auth
+     *
+     * @apiDescription Авторизует пользователя. В ответ на запрос отдаст JWT-Токен.
+     * Его необходимо указывать в заголовке Authorization.
+     *
+     * @apiParam {String} email Почта пользователя.
+     * @apiParam {String} password Пароль пользователя.
+     *
+     * @apiSuccess {String} result jwtToken
+     *
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "result":
+     *          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.dtxWM6MIcgoeMgH87tGvsNDY6cHWL6MGW4LeYvnm1JA"
+     *     }
+     */
     .post(authPublicRoute + 'login', auth.login)
     /**
      * @api {get} /api/users/items
@@ -81,4 +85,4 @@ router
      */
     .get(usersProtectedRoute + 'item', users.getItem);
 
-export { router };
+export {router};
