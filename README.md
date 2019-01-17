@@ -1,4 +1,5 @@
 ### Тестовое задание на позицию JS / TS Fullstack Developer
+[![Build Status](https://travis-ci.com/qiwi/test_task_node_server.svg?branch=master)](https://travis-ci.com/qiwi/test_task_node_server/)
 
 #### Закончив реализацию, открывайте Pull Request в этот репозиторий
 
