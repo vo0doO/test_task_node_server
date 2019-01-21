@@ -150,7 +150,7 @@ define({ "api": [
     "groupTitle": "User"
   },
   {
-    "type": "post",
+    "type": "get",
     "url": "/api/public/healthcheck",
     "title": "",
     "name": "healthcheck",

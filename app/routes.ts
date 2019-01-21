@@ -15,7 +15,7 @@ const healthcheckRoute = config.get('appConfig.publicApiPrefix') + 'healthcheck'
 router
 
     /**
-     * @api {post} /api/public/healthcheck
+     * @api {get} /api/public/healthcheck
      * @apiName healthcheck
      * @apiGroup healthcheck
      *
