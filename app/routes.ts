@@ -1,7 +1,7 @@
 import * as config from 'config';
 import * as Router from 'koa-router';
 import {AuthController} from "./controllers/auth";
-import {Users as UsersController} from './controllers/users';
+import {UsersController} from './controllers/users';
 import {Context} from "koa";
 
 const router = new Router();

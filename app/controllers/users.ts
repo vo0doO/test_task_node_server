@@ -4,7 +4,7 @@ import {UsersModel} from '../models/users';
 
 const usersModel = new UsersModel();
 
-export class Users extends Controller {
+export class UsersController extends Controller {
 
     public getItems = async (ctx: Context): Promise<void> => {
         ctx.body = await usersModel.getItems();
