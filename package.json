@@ -14,10 +14,10 @@
   "private": true,
   "dependencies": {
     "config": "^1.30.0",
-    "innots": "^1.1.7"
+    "innots": "^1.5.6"
   },
   "devDependencies": {
-    "apidoc": "^0.17.5",
+    "apidoc": "^0.17.7",
     "tslint": "^5.7.0",
     "tslint-eslint-rules": "^4.1.1",
     "typescript": "^2.6.2"
