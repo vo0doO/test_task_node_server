@@ -2,15 +2,18 @@ import * as config from 'config';
 import * as Router from 'koa-router';
 import {AuthController} from "./controllers/auth";
 import {UsersController} from './controllers/users';
+import {BillsController} from "./controllers/bills";
 import {Context} from "koa";
 
 const router = new Router();
 const users = new UsersController();
 const auth = new AuthController();
+const bills = new BillsController();
 
 const usersProtectedRoute = config.get('appConfig.apiPrefix') + 'users/';
 const authPublicRoute = config.get('appConfig.publicApiPrefix') + 'auth/';
 const healthcheckRoute = config.get('appConfig.publicApiPrefix') + 'healthcheck';
+const billsProtectedRoute = config.get('appConfig.apiPrefix') + 'bills/';
 
 router
 
@@ -83,6 +86,20 @@ router
      *
      * @apiSuccess {Object} result пользователь.
      */
-    .get(usersProtectedRoute + 'item', users.getItem);
+    .get(usersProtectedRoute + 'item', users.getItem)
+    /**
+     * @api {get} /api/bills/items
+     * @apiName getBills
+     * @apiGroup Bills
+     *
+     * @apiDescription Возвращает записи платежных транзакций
+     *
+     * @apiHeader {Authorization} authorization Authorization value.
+     * @apiHeaderExample Headers-Example:
+     *   { "Authorization": "Bearer :jwtToken" }
+     *
+     * @apiSuccess {Object} result массив записей о платежных транзакциях
+     */
+    .get(billsProtectedRoute + 'items', bills.getItems);
 
 export {router};
