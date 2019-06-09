@@ -92,14 +92,31 @@ router
      * @apiName getBills
      * @apiGroup Bills
      *
-     * @apiDescription Возвращает записи платежных транзакций
+     * @apiDescription Возвращает записи о платежных транзакциях
      *
      * @apiHeader {Authorization} authorization Authorization value.
      * @apiHeaderExample Headers-Example:
      *   { "Authorization": "Bearer :jwtToken" }
      *
-     * @apiSuccess {Object} result массив записей о платежных транзакциях
+     * @apiSuccess {Object} result массив записей JSON о платежных транзакциях
      */
-    .get(billsProtectedRoute + 'items', bills.getItems);
+    .get(billsProtectedRoute + 'items', bills.getItems)
+    /**
+     * @api {get} /api/bills/filteredbydate
+     * @apiName getBillsFilteredByDate
+     * @apiGroup Bills
+     *
+     * @apiDescription Возвращает записи о платежных транзакциях отфильтрованые по диапозону дат
+     *
+     * @apiHeader (Authorization) authorization Authorization value.
+     * @apiHeaderExample Headers-Example:
+     *   { "Authorization": "Bearer :jwtToken" }
+     *
+     * @apiParam {Date} dateFrom дата являющаяся началом диапазона дат по которому необходимо отфильтровать записи о платёжных транзакциях
+     * @apiParam {Date} dateTo дата являющаяся окончанием диапазона дат по которому необходимо отфильтровать записи о платёжных транзакциях
+     *
+     * @apiSuccess {Object} result массив отфильтрованных записей JSON о платёжных транзакциях
+     */
+    .get(billsProtectedRoute + 'filteredbydate', bills.getItemFilteredByDate);
 
 export {router};

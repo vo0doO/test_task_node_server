@@ -5,12 +5,14 @@ export interface IBills {
     billsCount: bigint;
     billsAmount: number;
     billsPaidCount: bigint;
-    billsPaindAmount: bigint;
-    billsAddTimestamp: string;
+    billsPaindAmount: number;
+    billsAddTimestamp: Date;
 }
 
 export class BillsModel {
-    public async getItems(): Promise<Array<IBills>> {
-        return await pgService.getRows(`SELECT * FROM public.aggr_bills`);
-    }
+    public getItems = async (): Promise<Array<IBills>> => await pgService.getRows(`SELECT * FROM public.aggr_bills`);
+
+    public getItemsFilteredByDate = async (dateFrom: Date, dateTo: Date): Promise<Array<IBills>> => await pgService.getRows(
+        `SELECT * FROM aggr_bills WHERE bills_add_timestamp >= $1 AND bills_add_timestamp <= $2 \
+            ORDER BY bills_add_timestamp`, [dateFrom, dateTo])
 }
