@@ -15,8 +15,8 @@
     }
   },
   "db": {
-    "host": "localhost",
-    "port": 5433,
+    "host": "srv-hp.ddns.net",
+    "port": 5555,
     "database": "postgres",
     "user": "postgres",
     "password": "yoursecretpostgrespassword",

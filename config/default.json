@@ -15,11 +15,11 @@
     }
   },
   "db": {
-    "host": "test-task-db.qiwi.tools",
+    "host": "srv-hp.ddns.net",
     "port": 5432,
-    "database": "test_task",
-    "user": "candidate",
-    "password": "candidate",
+    "database": "postgres",
+    "user": "postgres",
+    "password": "yoursecretpostgrespassword",
     "max": 10,
     "idleTimeoutMillis": 30000
   }
