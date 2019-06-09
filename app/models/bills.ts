@@ -1,4 +1,3 @@
-import {PgService} from "innots";
 import {pgService} from "../../app";
 
 export interface IBills {
