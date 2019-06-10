@@ -3,36 +3,32 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node app.js",
+    "build": "tsc",
+    "lint": "tslint 'app/**/*.ts' --project tsconfig.json",
+    "doc": "apidoc -f app/routes.ts -o docs",
     "pretes": "tcs",
     "test": "nyc mocha",
     "watch": "tsc --watch",
     "debug": "nodemon --inspect ./app.js",
-    "debug-test": "mocha --wath --ui tdd",
-    "build": "tsc",
-    "lint": "tslint 'app/**/*.ts' --project tsconfig.json",
-    "doc": "apidoc -f app/routes.ts -o docs"
+    "debug-test": "mocha --wath --ui tdd"
   },
   "author": "",
   "license": "",
   "description": "",
   "private": true,
   "dependencies": {
-    "chai-http": "^4.3.0",
     "config": "^1.30.0",
     "innots": "^1.5.6"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.7",
     "apidoc": "^0.17.7",
     "chai": "^4.2.0",
     "mocha": "^6.1.4",
-    "mocha-typescript": "^1.1.17",
     "nodemon": "^1.19.1",
     "nyc": "^14.1.1",
     "source-map-support": "^0.5.12",
     "tslint": "^5.7.0",
-    "tslint-eslint-rules": "^4.1.1",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.1",
+    "chai-http": "^4.3.0"
   }
 }
