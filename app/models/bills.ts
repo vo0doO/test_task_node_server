@@ -1,15 +1,16 @@
-import {pgService} from "../../app";
+import { pgService } from "../../app";
 
 export interface IBills {
-    idBills: bigint;
-    billsCount: bigint;
+    idBills: number;
+    billsCount: number;
     billsAmount: number;
-    billsPaidCount: bigint;
+    billsPaidCount: number;
     billsPaindAmount: number;
     billsAddTimestamp: Date;
 }
 
 export class BillsModel {
+    // TODO: Юнит тесты методов модели
     public getItems = async (): Promise<Array<IBills>> => await pgService.getRows(`SELECT * FROM public.aggr_bills`);
 
     public getItemsFilteredByDate = async (dateFrom: Date, dateTo: Date): Promise<Array<IBills>> => await pgService.getRows(
