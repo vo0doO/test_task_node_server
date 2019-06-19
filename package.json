@@ -4,8 +4,9 @@
   "scripts": {
     "start": "node app.js",
     "build": "tsc",
-    "lint": "tslint 'app/**/*.ts' --project tsconfig.json",
-    "doc": "apidoc -f app/routes.ts -o docs"
+    "lint": "tslint --fix 'app/**/*.ts' --project tsconfig.json",
+    "doc": "apidoc -f app/routes.ts -o docs",
+    "debug": "nodemon --inspect-brk --watch ./app/models/*spec.js node_modules/mocha/bin/_mocha ./app/models/*.spec.js --debug --reporter spec"
   },
   "author": "",
   "license": "",
@@ -20,12 +21,13 @@
     "@types/mocha": "^2.2.38",
     "apidoc": "^0.17.7",
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "mocha": "^6.1.4",
     "nodemon": "^1.19.1",
     "nyc": "^14.1.1",
     "source-map-support": "^0.5.12",
     "tslint": "^5.7.0",
-    "typescript": "^2.5.2",
-    "chai-http": "^4.3.0"
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "^2.5.2"
   }
 }

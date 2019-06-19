@@ -1,10 +1,10 @@
 import * as chai from 'chai';
 import { suite, test } from '../../node_modules/mocha';
-import { mockIBills, Bills, CheckObj } from '../../lib/helpers'
-import { IBills } from './bills';
+import { MockIBills, CheckObj } from '../../lib/helpers';
 
 const assert = chai.assert;
-const Bills = new mockIBills(
+
+const bills = new MockIBills(
     3333,
     937,
     839197.53,
@@ -13,73 +13,80 @@ const Bills = new mockIBills(
     new Date("2018-04-17 10:45:00+00")
 );
 
-const BillChecker = new CheckObj(Bills, 'Bills');
-const [BillsKeys, BillsVals, BillsValsT] = BillChecker.listProps();
-const mockChecker = new CheckObj(new mockIBills(), 'mockIBills');
+const billChecker = new CheckObj(bills, 'bills');
+
+const [billsKeys, billsVals, billsValsT] = billChecker.listProps();
+
+const mockChecker = new CheckObj(new MockIBills(1, 1, 1, 1, 1, new Date("2019-05-06")), 'mockIBills');
+
 const [mockKeys, mockVals, mockValsT] = mockChecker.listProps();
 
 suite("Юнит тесты api платёжных транзакций", () => {
 
-    suite("Проверяем что создается когда используется интерфейс IBills.", function () {
+    // tslint:disable-next-line: typedef
+    suite("Проверяем что создается когда используется интерфейс IBills.", () => {
 
         test('Это не массив.', () => {
-            assert.isNotArray(Bills)
-        })
+            assert.isNotArray(bills);
+        });
 
         test("Это не строка.", () => {
-            assert.isNotString(Bills)
-        })
+            assert.isNotString(bills);
+        });
 
         test("Это не номер.", () => {
-            assert.isNotNumber(Bills)
-        })
+            assert.isNotNumber(bills);
+        });
 
         test("Это не null.", () => {
-            assert.isNotNull(Bills)
-        })
+            assert.isNotNull(bills);
+        });
 
         test("Это не функция.", () => {
-            assert.isNotFunction(Bills)
-        })
+            assert.isNotFunction(bills);
+        });
 
         test("Это не булево.", () => {
-            assert.isNotBoolean(Bills)
-        })
+            assert.isNotBoolean(bills);
+        });
 
         test("Это не NaN.", () => {
-            assert.isNotNumber(Bills)
-        })
+            assert.isNotNumber(bills);
+        });
 
         test("Это не неопределено.", () => {
-            assert.isDefined(Bills)
-        })
+            assert.isDefined(bills);
+        });
 
         test("Это объект !", () => {
-            assert.isObject(Bills)
-        })
+            assert.isObject(bills);
+        });
 
         test("Объект Javascript !", () => {
-            assert.isString(JSON.stringify(Bills))
-        })
-    })
+            assert.isString(JSON.stringify(bills));
+        });
+    });
 
     suite("Смотрим глубже - проверяем свойства, устанавливаем идентичнось", () => {
 
-        test("Это инстанц IBills.", () => {
-            assert.instanceOf(Bills, mockIBills)
-        })
+        test("Объект инстанц IBills.", () => {
+            assert.instanceOf(bills, MockIBills);
+        });
 
-        test("К сожалению не запечатан, к нему могут быть добавленны новые свойства, а текущие свойства могут быть удаленны !", () => {
-            assert.isNotSealed(Bills)
-        })
+        test("К объекту могут быть добавленны новые свойства, а текущие свойства могут быть удаленны !", () => {
+            assert.isNotSealed(bills);
+        });
 
-        test("Количество открытых свойств такое же, как у IBills.", () => {
-            assert.equal(BillsKeys.length, mockKeys.length)
-        })
+        test("Кол-во свойств объекта идентично кол-ву свойств IBills.", () => {
+            assert.equal(billsKeys.length, mockKeys.length);
+        });
 
-        test("Тип каждого открытого свойства такой же, как у IBills", () => {
-            for (let i in BillsValsT && mockValsT)
-                assert.equal(BillsValsT[i], mockValsT[i])
-        })
-    })
-})
+        test("Типы свойств объекта идентичны типам свойст IBills", () => {
+            for (const i in billsValsT && mockValsT) {
+                if (billsValsT[i] && mockValsT[i]) {
+                    assert.equal(billsValsT[i], mockValsT[i]);
+                }
+            }
+        });
+    });
+});
