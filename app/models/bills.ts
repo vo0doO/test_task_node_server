@@ -5,12 +5,12 @@ export interface IBills {
     billsCount: number;
     billsAmount: number;
     billsPaidCount: number;
-    billsPaindAmount: number;
+    billsPaidAmount: number;
     billsAddTimestamp: Date;
 }
 
 export class BillsModel {
-    // TODO: Юнит тесты методов модели
+
     public getItems = async (): Promise<Array<IBills>> => await pgService.getRows(`SELECT * FROM public.aggr_bills`);
 
     public getItemsFilteredByDate = async (dateFrom: Date, dateTo: Date): Promise<Array<IBills>> => await pgService

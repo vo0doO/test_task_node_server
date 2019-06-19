@@ -117,6 +117,6 @@ router
      *
      * @apiSuccess {Object} result массив отфильтрованных записей JSON о платёжных транзакциях
      */
-    .get(billsProtectedRoute + 'filteredbydate', bills.getItemFilteredByDate);
+    .get(billsProtectedRoute + 'filteredbydate', bills.getItemsFilteredByDate);
 
 export { router };

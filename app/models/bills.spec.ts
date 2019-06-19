@@ -1,17 +1,8 @@
 import * as chai from 'chai';
 import { suite, test } from '../../node_modules/mocha';
-import { MockIBills, CheckObj } from '../../lib/helpers';
+import { bills, MockIBills, CheckObj } from '../../lib/helpers';
 
 const assert = chai.assert;
-
-const bills = new MockIBills(
-    3333,
-    937,
-    839197.53,
-    786,
-    192237.06,
-    new Date("2018-04-17 10:45:00+00")
-);
 
 const billChecker = new CheckObj(bills, 'bills');
 
@@ -73,15 +64,15 @@ suite("Юнит тесты api платёжных транзакций", () => {
             assert.instanceOf(bills, MockIBills);
         });
 
-        test("К объекту могут быть добавленны новые свойства, а текущие свойства могут быть удаленны !", () => {
+        test("К объекту могут быть добавленны новые свойства, а текущие свойства могут быть удаленны.", () => {
             assert.isNotSealed(bills);
         });
 
-        test("Кол-во свойств объекта идентично кол-ву свойств IBills.", () => {
+        test("Кол-во свойств объекта идентично IBills.", () => {
             assert.equal(billsKeys.length, mockKeys.length);
         });
 
-        test("Типы свойств объекта идентичны типам свойст IBills", () => {
+        test("Типы значений в свойствах объекта идентичны IBills", () => {
             for (const i in billsValsT && mockValsT) {
                 if (billsValsT[i] && mockValsT[i]) {
                     assert.equal(billsValsT[i], mockValsT[i]);
