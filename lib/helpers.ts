@@ -1,5 +1,7 @@
 import { IBills } from "../app/models/bills";
 
+const startDate: string = "2018-04-01T00:05:00.000Z";
+const endDate: string = "2018-04-02T00:00:00.000Z";
 const host: string = "http://localhost";
 const serverPort: number = 2211;
 const billsResource: string = "/api/bills/items";
@@ -81,4 +83,15 @@ export class CheckObj {
     }
 }
 
-export { bills, host, serverPort, billsResource, headersWithToken, billsResourceFilteredByDate, makeRequestAddress };
+const billChecker = new CheckObj(bills, 'bills');
+
+const [billsKeys, billsVals, billsValsT] = billChecker.listProps();
+
+const mockChecker = new CheckObj(new MockIBills(1, 1, 1, 1, 1, new Date("2019-05-06")), 'mockIBills');
+
+const [mockKeys, mockVals, mockValsT] = mockChecker.listProps();
+
+export {
+    bills, billsKeys, billsValsT, mockKeys, mockValsT, host, serverPort, billsResource,
+    headersWithToken, billsResourceFilteredByDate, makeRequestAddress, startDate, endDate
+};

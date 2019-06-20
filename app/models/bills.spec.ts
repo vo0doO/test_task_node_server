@@ -1,16 +1,6 @@
-import * as chai from 'chai';
+import { assert } from 'chai';
 import { suite, test } from '../../node_modules/mocha';
-import { bills, MockIBills, CheckObj } from '../../lib/helpers';
-
-const assert = chai.assert;
-
-const billChecker = new CheckObj(bills, 'bills');
-
-const [billsKeys, billsVals, billsValsT] = billChecker.listProps();
-
-const mockChecker = new CheckObj(new MockIBills(1, 1, 1, 1, 1, new Date("2019-05-06")), 'mockIBills');
-
-const [mockKeys, mockVals, mockValsT] = mockChecker.listProps();
+import { bills, MockIBills, billsKeys, billsValsT, mockKeys, mockValsT } from '../../lib/helpers';
 
 suite("Юнит тесты api платёжных транзакций", () => {
 

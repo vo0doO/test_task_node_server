@@ -7,7 +7,9 @@ import {
     billsResource,
     headersWithToken,
     billsResourceFilteredByDate,
-    makeRequestAddress
+    makeRequestAddress,
+    startDate,
+    endDate
 } from "../../lib/helpers";
 
 // tslint:disable-next-line: typedef
@@ -21,9 +23,7 @@ function checkDate(allBillsAddTimestamp: string[]) {
 
 describe("Интеграционные тесты точки api платёжных транзакций", async (): Promise<void> => {
 
-    before(async () => {
-        await app;
-    });
+    before(async () => { await app; });
 
     describe('GET /api/bills/items => "Массив транзакций"', async () => {
 
@@ -42,7 +42,7 @@ describe("Интеграционные тесты точки api платёжн�
                 headers: headersWithToken
             })
                 .then(async (response) => {
-                    assert.isArray(JSON.parse(response));
+                    assert.isArray(JSON.parse(response), "response это массив объектов js");
                 })
                 .catch((err) => {
                     throw err;
@@ -79,8 +79,7 @@ describe("Интеграционные тесты точки api платёжн�
     describe('GET /api/bills/filteredByDate?dateFrom=[Date]&dateTo=[Date] => "Массив транзакций"', async () => {
 
         it("Результат - массив транзакций, отфильтрованн по указанным датам и отсортированн", async () => {
-            const startDate: string = "2018-04-01T00:05:00.000Z";
-            const endDate: string = "2018-04-02T00:00:00.000Z";
+
             await request.get(makeRequestAddress(serverPort, billsResourceFilteredByDate), {
                 headers: headersWithToken,
                 qs: {
