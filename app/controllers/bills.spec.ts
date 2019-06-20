@@ -12,6 +12,7 @@ import {
     endDate
 } from "../../lib/helpers";
 
+// Вспомогательная функция для проверяем утверждения - все значения с ключем billsAddTimestamp - это даты.
 // tslint:disable-next-line: typedef
 function checkDate(allBillsAddTimestamp: string[]) {
     for (const d of allBillsAddTimestamp) {
@@ -88,8 +89,8 @@ describe("Интеграционные тесты точки api платёжн�
                 }
             })
                 .then(async (response) => {
-
                     const bills = JSON.parse(response);
+                    // генератор дат
                     const genTimestamp = {
                         // tslint:disable-next-line: typedef
                         *[Symbol.iterator]() {
@@ -100,10 +101,12 @@ describe("Интеграционные тесты точки api платёжн�
                             }
                         }
                     };
+                    // вызаваем генератор и сохраняем результат в переменную для последубщей проверки утверждений
                     const allBillsAddTimestamp: string[] = [...genTimestamp];
 
                     assert.isArray(bills, "В ответ на запрос вернулся массив объектов js");
-                    checkDate(allBillsAddTimestamp); // Все значения с ключем billsAddTimestamp это даты
+                    // Проверяем утверждение - все значения с ключем billsAddTimestamp, это даты
+                    checkDate(allBillsAddTimestamp);
                     assert.equal(allBillsAddTimestamp[0], startDate,
                         "Первая дата ответа равна начальной дате в запросе");
                     assert.equal(allBillsAddTimestamp[allBillsAddTimestamp.length - 1], endDate,
