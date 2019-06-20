@@ -1,9 +1,9 @@
 import * as config from 'config';
 import * as Router from 'koa-router';
-import {AuthController} from "./controllers/auth";
-import {UsersController} from './controllers/users';
-import {BillsController} from "./controllers/bills";
-import {Context} from "koa";
+import { AuthController } from "./controllers/auth";
+import { UsersController } from './controllers/users';
+import { BillsController } from "./controllers/bills";
+import { Context } from "koa";
 
 const router = new Router();
 const users = new UsersController();
@@ -112,11 +112,11 @@ router
      * @apiHeaderExample Headers-Example:
      *   { "Authorization": "Bearer :jwtToken" }
      *
-     * @apiParam {Date} dateFrom дата являющаяся началом диапазона дат по которому необходимо отфильтровать записи о платёжных транзакциях
-     * @apiParam {Date} dateTo дата являющаяся окончанием диапазона дат по которому необходимо отфильтровать записи о платёжных транзакциях
+     * @apiParam {Date} dateFrom дата началом диапазона по которому отфильтруются платёжные транзакции
+     * @apiParam {Date} dateTo дата оконца диапазона дат по которому отфильтруются записи о платёжных транзакциях
      *
      * @apiSuccess {Object} result массив отфильтрованных записей JSON о платёжных транзакциях
      */
-    .get(billsProtectedRoute + 'filteredbydate', bills.getItemFilteredByDate);
+    .get(billsProtectedRoute + 'filteredbydate', bills.getItemsFilteredByDate);
 
-export {router};
+export { router };
