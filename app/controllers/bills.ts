@@ -8,7 +8,7 @@ export class BillsController extends Controller {
     public getItems = async (ctx: Context): Promise<void> => {
         ctx.body = await billsModel.getItems();
     }
-    // TODO: Сделать приемлимую валидацию
+
     public getItemsFilteredByDate = async (ctx: Context): Promise<void> => {
         const validatedFilter = this.validate(ctx, (validator: ItemValidator) => {
             return {
