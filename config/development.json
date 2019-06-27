@@ -2,7 +2,7 @@
   "appConfig": {
     "apiPrefix": "/api/",
     "publicApiPrefix": "/api/public/",
-    "port": 2211,
+    "port": 3322,
     "enableLogMiddleware": true,
     "logLevel": "DEBUG",
     "jwt": {

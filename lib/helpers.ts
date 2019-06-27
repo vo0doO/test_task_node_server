@@ -3,7 +3,7 @@ import { IBills } from "../app/models/bills";
 const startDate: string = "2018-04-01T00:05:00.000Z";
 const endDate: string = "2018-04-02T00:00:00.000Z";
 const host: string = "http://localhost";
-const serverPort: number = 2211;
+const serverPort: number = 3322;
 const billsResource: string = "/api/bills/items";
 const billsResourceFilteredByDate: string = "/api/bills/filteredByDate";
 const headersWithToken = {
@@ -66,15 +66,15 @@ export class CheckObj {
             }
         }
 
-        // Выделение ключа
+        // ключи
         for (const k of result) {
             keys.push(...[`${k[0]}`]);
         }
-        // Выделение значения
+        // значения
         for (const k of result) {
             vals.push(...[`${k[1]}`]);
         }
-        // Выведение типов
+        // типы значений
         for (const k of result) {
             valsT.push(...[typeof this.obj[`${k[0]}`]]);
         }
