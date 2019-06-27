@@ -82,7 +82,7 @@
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "Object",
+            "type": "Array",
             "optional": false,
             "field": "result",
             "description": "<p>массив записей о платежных транзакциях</p>"
@@ -145,7 +145,7 @@
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "Object",
+            "type": "Array",
             "optional": false,
             "field": "result",
             "description": "<p>отфильтрованный массив записей о платёжных транзакциях</p>"

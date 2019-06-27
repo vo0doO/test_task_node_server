@@ -98,7 +98,7 @@ router
      * @apiHeaderExample Headers-Example:
      *   { "Authorization": "Bearer :jwtToken" }
      *
-     * @apiSuccess {Object} result массив записей о платежных транзакциях
+     * @apiSuccess {Array} result массив записей о платежных транзакциях
      */
     .get(billsProtectedRoute + 'items', bills.getItems)
     /**
@@ -115,7 +115,7 @@ router
      * @apiParam {Date} dateFrom дата начала диапазона по которому фильтруются записи
      * @apiParam {Date} dateTo дата окончания диапазона дат по которому фильтруются записи
      *
-     * @apiSuccess {Object} result отфильтрованный массив записей о платёжных транзакциях
+     * @apiSuccess {Array} result отфильтрованный массив записей о платёжных транзакциях
      */
     .get(billsProtectedRoute + 'filteredbydate', bills.getItemsFilteredByDate);
 
