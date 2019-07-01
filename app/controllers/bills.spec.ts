@@ -11,9 +11,8 @@ import {
     startDate,
     endDate
 } from "../../lib/helpers";
-// Вспомогательная функция для проверки утверждения - все значения billsAddTimestamp - даты.
-// 
-// функуия checkDate  принимает массив дат полученных из ответа сервера и возвращает результаты проверки утвеждений
+
+// checkDate принимает массив дат, возвращает результаты проверки утвеждений
 function checkDate(allBillsAddTimestamp: string[]) {
     // итерация по массиву с датами
     for (const d of allBillsAddTimestamp) {
