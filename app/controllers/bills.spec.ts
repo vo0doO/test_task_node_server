@@ -1,6 +1,9 @@
 import { assert, expect } from "chai";
 import { app } from "../../app";
 import * as request from "request-promise";
+import { dataGenerator } from '../../lib/dateGenerator'
+import { assertIsValidateDate } from "../../lib/dateValidator";
+
 import {
     bills,
     serverPort,
@@ -12,37 +15,7 @@ import {
     endDate
 } from "../../lib/helpers";
 
-// checkDate принимает массив дат, возвращает результаты проверки утвеждений
-function checkDate(allBillsAddTimestamp: string[]) {
-    // итерация по массиву с датами
-    for (const d of allBillsAddTimestamp) {
-        /**
-         * В процессе каждой итерации сохраняем billsAddTimestamp в переменную d,
-         * d педаем в конструктор Date, а полученный объект сохраняем в переменную checkingDate
-         */
-        let checkingDate = new Date(d)
-        // если checkingDate существовует 
-        if (checkingDate) {
-            /**
-             * Убедимся в том, что checkingDate НЕ ЯВЛЯЕТСЯ НЕ ДЕЙСТВИТЕЛЬНОЙ датой.
-             * Это поможет избежать ложноположительных результатов теста
-             * которые могут образоваться в результате восприятия методом instanceof недействительной даты 
-             * как полноправного инстанца конструктора Date
-             * 
-             * Для этого создадим недействительную дату и проверим утвердение:
-             * checkingDate и "не действительная дата" не равны.
-             */
-            let invalidDate = new Date("");
-            assert.notEqual(checkingDate, invalidDate)
-            /**
-             * Зная что checkingDate это точно не не действительная дата
-             * Теперь мы можем проверить утверждение: "Все checkingDate(значения ответа с ключем billsAddTimestamp) - это даты"
-             * и быть уверенными в отсутствии в результатах теста ложноположительных результатов 
-             */
-            return assert.instanceOf(new Date(d), Date, "Все значения с ключем billsAddTimestamp это даты")
-        }
-    }
-}
+
 
 describe("Интеграционные тесты точки api платёжных транзакций", async (): Promise<void> => {
 
@@ -99,7 +72,7 @@ describe("Интеграционные тесты точки api платёжн�
         });
     });
 
-    describe('GET /api/bills/filteredByDate?dateFrom=[Date]&dateTo=[Date] => "Массив транзакций"', async () => {
+    describe('GET /api/bills/filteredByDate?dateFrom=[Date]&dateTo=[Date] => "Отфильтрованный по датам массив транзакций"', async () => {
 
         it("Результат - массив транзакций, отфильтрованн по указанным датам и отсортированн", async () => {
 
@@ -112,26 +85,17 @@ describe("Интеграционные тесты точки api платёжн�
             })
                 .then(async (response) => {
                     const bills = JSON.parse(response);
-                    // генератор дат
-                    const genTimestamp = {
-                        // tslint:disable-next-line: typedef
-                        *[Symbol.iterator]() {
-                            for (const index in bills) {
-                                if (index) {
-                                    yield bills[index].billsAddTimestamp;
-                                }
-                            }
-                        }
-                    };
-                    // сохранить даты в переменную
-                    const allBillsAddTimestamp: string[] = [...genTimestamp];
+                    const allBillsAddTimestamp: string[] = [...dataGenerator]; // сохранить даты в переменную!
                     assert.isArray(bills, "В ответ на запрос вернулся массив объектов js");
-                    // убедится что в массиве только действительные даты
-                    checkDate(allBillsAddTimestamp);
+                    assertIsValidateDate(allBillsAddTimestamp); // Все даты валидны
                     assert.equal(allBillsAddTimestamp[0], startDate,
                         "Первая дата в ответе равна первой дате в запросе");
                     assert.equal(allBillsAddTimestamp[allBillsAddTimestamp.length - 1], endDate,
                         "Последняя дата в ответе равна последней дате в запросе");
+                    assert.isAtLeast(new Date(allBillsAddTimestamp[allBillsAddTimestamp.length - 1]).getTime(), new Date(allBillsAddTimestamp[0]).getTime(),
+                        "Последняя дата в ответе больше или равна первой дате")
+                    assert.isAtMost(new Date(allBillsAddTimestamp[0]).getTime(), new Date(allBillsAddTimestamp[allBillsAddTimestamp.length - 1]).getTime(),
+                        "Первая дата в ответе меньше или равна последней дате")
                 })
                 .catch((err) => {
                     throw err;

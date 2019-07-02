@@ -1,4 +1,5 @@
 import { IBills } from "../app/models/bills";
+import { assert } from "chai";
 
 const startDate: string = "2018-04-01T00:05:00.000Z";
 const endDate: string = "2018-04-02T00:00:00.000Z";
@@ -34,19 +35,21 @@ export class MockIBills implements IBills {
     }
 }
 
-const bills = new MockIBills(
-    3333,
-    937,
-    839197.53,
-    786,
-    192237.06,
-    new Date("2018-04-17 10:45:00+00")
-);
+var bills: IBills = {
+    idBills: 3333,
+    billsPaidCount: 9,
+    billsPaidAmount: 10254,
+    billsCount: 786,
+    billsAmount: 1922,
+    billsAddTimestamp: new Date("2018-04-17 10:45:00+00")
+}
 
 // tslint:disable-next-line: max-classes-per-file
 export class CheckObj {
+
     public obj: object;
     public objName: string;
+    public bills: IBills;
 
     constructor(obj: object, objName: string) {
         this.obj = obj;
