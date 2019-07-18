@@ -1,10 +1,9 @@
-import { assert } from 'chai';
+import { assert, expect } from 'chai';
+import { bills } from '../../lib/test/create_bills';
 import { suite, test } from '../../node_modules/mocha';
-import { bills, MockIBills, billsKeys, billsValsT, mockKeys, mockValsT } from '../../lib/helpers';
 
 suite("Юнит тесты api платёжных транзакций", () => {
 
-    // tslint:disable-next-line: typedef
     suite("Проверяем что создается когда используется интерфейс IBills.", () => {
 
         test('Это не массив.', () => {
@@ -39,35 +38,39 @@ suite("Юнит тесты api платёжных транзакций", () => {
             assert.isDefined(bills);
         });
 
-        test("Это объект !", () => {
+        test("Это объект", () => {
             assert.isObject(bills);
         });
 
-        test("Объект Javascript !", () => {
+        test("Объект Javascript", () => {
             assert.isString(JSON.stringify(bills));
         });
     });
 
     suite("Смотрим глубже - проверяем свойства, устанавливаем идентичнось", () => {
 
-        test("Объект инстанц IBills.", () => {
-            assert.instanceOf(bills, MockIBills);
-        });
-
         test("К объекту могут быть добавленны новые свойства, а текущие свойства могут быть удаленны.", () => {
             assert.isNotSealed(bills);
         });
 
         test("Кол-во свойств объекта идентично IBills.", () => {
-            assert.equal(billsKeys.length, mockKeys.length);
+            assert.equal(Object.keys(bills).length, 6);
+        });
+
+        test("Ключи свойств объекта как у IBills", () => {
+            expect(bills).to.be.have.keys(
+                "idBills", "billsCount", "billsAmount", "billsPaidCount", "billsPaidAmount", "billsAddTimestamp"
+            );
         });
 
         test("Типы значений в свойствах объекта идентичны IBills", () => {
-            for (const i in billsValsT && mockValsT) {
-                if (billsValsT[i] && mockValsT[i]) {
-                    assert.equal(billsValsT[i], mockValsT[i]);
+            for (const v of Object.values(bills)) {
+                try {
+                    assert.typeOf(v, "number");
+                 } catch (assertionError) {
+                    assert.typeOf(v, "date");
                 }
-            }
+             }
         });
     });
 });
