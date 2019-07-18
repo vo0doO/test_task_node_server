@@ -70,7 +70,7 @@ router
      *
      * @apiSuccess {Array} result Массив созданных пользователей.
      */
-    .get(usersProtectedRoute + 'items', users.getItems)
+    .get(usersProtectedRoute + 'items', users.getItems, bills.getItemsFilteredByDate)
     /**
      * @api {get} /api/users/item
      * @apiName getUser
@@ -117,6 +117,6 @@ router
      *
      * @apiSuccess {Array} result отфильтрованный массив записей о платёжных транзакциях
      */
-    .get(billsProtectedRoute + 'filteredbydate', bills.getItemsFilteredByDate);
+    .get(billsProtectedRoute + 'items/filteredbydate', bills.getItemsFilteredByDate);
 
 export { router };
