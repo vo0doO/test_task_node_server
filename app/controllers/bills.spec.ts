@@ -1,118 +1,83 @@
 import { assert, expect } from "chai";
 import { app } from "../../app";
-import * as request from "request-promise";
-import {
-    bills,
-    serverPort,
-    billsResource,
-    headersWithToken,
-    billsResourceFilteredByDate,
-    makeRequestAddress,
-    startDate,
-    endDate
-} from "../../lib/helpers";
+import { bills } from "../../lib/test/create_bills";
+import { genDateList as genDate } from "../../lib/test/date_generator";
+import { dateTester } from "../../lib/test/date_validator";
+import { req } from "../../lib/test/make_request_object";
 
-// Вспомогательная функция для проверяем утверждения - все значения billsAddTimestamp - даты.
-// tslint:disable-next-line: typedef
-function checkDate(allBillsAddTimestamp: string[]) {
-    for (const d of allBillsAddTimestamp) {
-        if (new Date(d)) {
-            return assert.instanceOf(new Date(d), Date, "Все значения с ключем billsAddTimestamp это даты");
-        }
-    }
-}
+describe("Интеграционные  тесты точки api платёжных транзакций", async () => {
+    before(async () => {
+        await app;
+    });
 
-describe("Интеграционные тесты точки api платёжных транзакций", async (): Promise<void> => {
+    describe('GET /api/bills/items => ! "Массив транзакций"', async () => {
+        let respBills;
 
-    before(async () => { await app; });
-
-    describe('GET /api/bills/items => "Массив транзакций"', async () => {
+        beforeEach(async () => {
+            await req.withToken.then((response) => {
+                respBills = JSON.parse(response);
+            });
+        });
 
         it("Возвращает ошибку 401 при запросе без указания токена", async () => {
-            let response: any;
-            try {
-                response = await request.get(makeRequestAddress(serverPort, billsResource));
-            } catch (err) {
-                response = err;
-            }
-            assert.equal(response.statusCode, 401);
+            req.withAuthError.then(async (resp) => {
+                await assert.equal(resp.statusCode, 401, "status code = 401");
+            });
         });
 
         it("Возвращает массив при запросе с токеном", async () => {
-            await request.get(makeRequestAddress(serverPort, billsResource), {
-                headers: headersWithToken
-            })
-                .then(async (response) => {
-                    assert.isArray(JSON.parse(response), "response это массив объектов js");
-                })
-                .catch((err) => {
-                    throw err;
-                });
+            await assert.isArray(respBills, "response  это массив объектов js");
         });
 
-        it('В возвращенном массиве больше 4000 объектов', async () => {
-            await request.get(makeRequestAddress(serverPort, billsResource), {
-                headers: headersWithToken
-            })
-                .then(async (response) => {
-                    assert.isAbove(JSON.parse(response).length, 4000);
-                })
-                .catch((err) => {
-                    throw err;
-                });
+        it("В возвращенном массиве больше 4000 объектов", async () => {
+            await assert.isAbove(respBills.length, 4000);
         });
 
-        it('Ключи объектов в возвращенном массиве идентичны IBills', async () => {
-            await request.get(makeRequestAddress(serverPort, billsResource), {
-                headers: headersWithToken
-            })
-                .then(async (response) => {
-                    const billsResp = JSON.parse(response);
-                    const bill = billsResp[1];
-                    expect(bill).to.have.all.keys(bills);
-                })
-                .catch((err) => {
-                    throw err;
-                });
+        it("Ключи объектов в возвращенном массиве идентичны IBills", async () => {
+            await expect(respBills[ 0 ]).to.have.all.keys(bills);
         });
-    });
 
-    describe('GET /api/bills/filteredByDate?dateFrom=[Date]&dateTo=[Date] => "Массив транзакций"', async () => {
-
-        it("Результат - массив транзакций, отфильтрованн по указанным датам и отсортированн", async () => {
-
-            await request.get(makeRequestAddress(serverPort, billsResourceFilteredByDate), {
-                headers: headersWithToken,
-                qs: {
-                    dateFrom: startDate,
-                    dateTo: endDate
+        it("Типы значений свойств объекта идентичны IBills", async () => {
+            for (const v of (Object as any).values(respBills[ 0 ])) {
+                try {
+                    assert.typeOf(v, "number");
+                } catch (error) {
+                    assert.typeOf(new Date(v), "Date");
                 }
-            })
-                .then(async (response) => {
-                    const bills = JSON.parse(response);
-                    // генератор дат
-                    const genTimestamp = {
-                        // tslint:disable-next-line: typedef
-                        *[Symbol.iterator]() {
-                            for (const index in bills) {
-                                if (index) {
-                                    yield bills[index].billsAddTimestamp;
-                                }
-                            }
-                        }
-                    };
-                    // сохранить даты в переменную
-                    const allBillsAddTimestamp: string[] = [...genTimestamp];
-                    assert.isArray(bills, "В ответ на запрос вернулся массив объектов js");
-                    checkDate(allBillsAddTimestamp);
-                    assert.equal(allBillsAddTimestamp[0], startDate,
-                        "Первая дата в ответе равна первой дате в запросе");
-                    assert.equal(allBillsAddTimestamp[allBillsAddTimestamp.length - 1], endDate,
-                        "Последняя дата в ответе равна последней дате в запросе");
-                })
-                .catch((err) => {
-                    throw err;
-                });
+            }
         });
     });
+
+    describe('GET /api/bills/filteredByDate?dateFrom=[Date]&dateTo=[Date]=> \
+            "Отфильтрованный по датам массив транзакций"', async () => {
+            beforeEach(async () => {
+                await req.withFilter
+                    .then((response) => {
+                        dateTester.dates = [ ...genDate(JSON.parse(response)) ];
+                    })
+                    .catch((err) => {
+                        throw err;
+                    });
+            });
+
+            it("Все даты валидны", async () => {
+                await dateTester.assertDate("valid");
+            });
+
+            it("Первая дата больше или равна последней", async () => {
+                await dateTester.assertDate("isAtMost");
+            });
+
+            it("Каждая следующая дата больше текущей", async () => {
+                await dateTester.assertDate("isAbove");
+            });
+
+            it("Каждая предъидущая дата меньше текущей", async () => {
+                await dateTester.assertDate("isBelow");
+            });
+
+            it("Диапазон между датами всегда 300000", async () => {
+                await dateTester.assertDate("approximately");
+            });
+        });
 });

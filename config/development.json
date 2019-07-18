@@ -2,9 +2,9 @@
   "appConfig": {
     "apiPrefix": "/api/",
     "publicApiPrefix": "/api/public/",
-    "port": 3322,
+    "port": 3000,
     "enableLogMiddleware": true,
-    "logLevel": "DEBUG",
+    "logLevel": "TRACE",
     "jwt": {
       "secret": "jwt_secret",
       "publicPath": "^\/api/public"
@@ -15,8 +15,8 @@
     }
   },
   "db": {
-    "host": "srv-hp.ddns.net",
-    "port": 5555,
+    "host": "192.168.0.4",
+    "port": 5433,
     "database": "postgres",
     "user": "postgres",
     "password": "yoursecretpostgrespassword",
