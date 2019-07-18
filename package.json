@@ -6,8 +6,8 @@
     "build": "tsc",
     "lint": "tslint --fix 'app/**/*.ts' --project tsconfig.json",
     "doc": "apidoc -f app/routes.ts -o docs",
-    "debug": "nodemon --inspect-brk --watch ./app/controllers/*spec.js node_modules/mocha/bin/_mocha ./app/controllers/*.spec.js --timeout 200000 --reporter spec --recursive",
-    "test": "node node_modules/mocha/bin/_mocha ./app/**/*.spec.js --timeout 200000 --reporter spec --recursive --exit"
+    "debug": "nodemon --inspect-brk node_modules/.bin/_mocha ./app/controllers/*.spec.js --timeout 200000 --reporter spec --recursive --exit",
+    "test": "node node_modules/.bin/_mocha ./app/**/*.spec.js --timeout 200000 --reporter spec --recursive --exit"
   },
   "author": "",
   "license": "",
@@ -32,6 +32,6 @@
     "source-map-support": "^0.5.12",
     "tslint": "^5.7.0",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^2.5.2"
+    "typescript": "^2.6.2"
   }
 }
